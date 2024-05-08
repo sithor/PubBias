@@ -1,0 +1,27 @@
+{
+    "id": "44B4064E",
+    "path": "/Volumes/S_THORNLEY/Simon Thornley USB/Scripts/Packages/PubBias/R/test_one.R",
+    "project_path": "R/test_one.R",
+    "type": "r_source",
+    "hash": "3297819241",
+    "contents": "",
+    "dirty": false,
+    "created": 1715141987515.0,
+    "source_on_save": false,
+    "relative_order": 5,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "22,0",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1715143524,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1715143525042,
+    "read_only": false,
+    "read_only_alternatives": []
+}

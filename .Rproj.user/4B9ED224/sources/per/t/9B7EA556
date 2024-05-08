@@ -1,0 +1,27 @@
+{
+    "id": "9B7EA556",
+    "path": "/Volumes/S_THORNLEY/Simon Thornley USB/Scripts/Packages/PubBias/R/plot_chase_observed_expected.R",
+    "project_path": "R/plot_chase_observed_expected.R",
+    "type": "r_source",
+    "hash": "1235983176",
+    "contents": "",
+    "dirty": false,
+    "created": 1715142317275.0,
+    "source_on_save": false,
+    "relative_order": 11,
+    "properties": {
+        "tempName": "Untitled2",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "10,252",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1715143794,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1715143794536,
+    "read_only": false,
+    "read_only_alternatives": []
+}

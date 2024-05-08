@@ -1,0 +1,27 @@
+{
+    "id": "88F11B4A",
+    "path": "/Volumes/S_THORNLEY/Simon Thornley USB/Scripts/Packages/PubBias/R/ChisqTest_expect.R",
+    "project_path": "R/ChisqTest_expect.R",
+    "type": "r_source",
+    "hash": "2867354233",
+    "contents": "",
+    "dirty": false,
+    "created": 1715142126325.0,
+    "source_on_save": false,
+    "relative_order": 8,
+    "properties": {
+        "tempName": "Untitled2",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "19,0",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1715143518,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1715143519701,
+    "read_only": false,
+    "read_only_alternatives": []
+}
