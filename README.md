@@ -33,7 +33,7 @@ publication bias, however, a less stringent level of 0.1 is often used in
 studies of publication bias, as the number of published studies is usually
 small. 
 
-It is assumed that pooled odds ratios will be less than one, 
+It is assumed that pooled odds ratios will be **less than one**, 
 indicating a protective effect of the intervention compared to the control.
 
 Future work will adapt the method for continuous outcome meta-analysis.
