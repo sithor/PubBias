@@ -14,36 +14,56 @@
 #' @return a dataframe with columns which include alpha level, observed number of positive studies, expected number, and P for difference, OR_hat (summary measure of effect for meta-analysis) with varying levels of significance for constituent studies
 #' @export
 #' @examples
-#'   data("BMort") ## Meta-analysis of statin use (Brugts 2009, BMJ)
+#'   data("BMort") ## Meta-analysis of statin use; Brugts 2009, BMJ
 #'  par(mar = c(5, 6, 4, 5) + 0.1)
-#'  Btmort<-with(BMort, plot_chase_observed_expected(r_events_control,
-#'    r_events_treated, n_sample_size_control, n_sample_size_treated, n=10,
-#'    low.alpha=.001, high.alpha=0.3, by.alpha=0.01))
-#' plot(Btmort$alpha, Btmort$observed,  type="l", las=1, lwd=2, xlim=c(.0001,0.3),
-#'    xlab=c("Significance level"),  #### Brugts study mortality outcome; n set low for speed.
-#'    ylab=c(Number of significant studies
+#'  Btmort<-with(BMort,
+#'    plot_chase_observed_expected(r_events_control,
+#'     r_events_treated,
+#'     n_sample_size_control,
+#'     n_sample_size_treated,
+#'     n = 10, # n set low for speed.
+#'     low.alpha = 0.001,
+#'     high.alpha = 0.3,
+#'     by.alpha = 0.01))
+#' plot(Btmort$alpha,
+#'  Btmort$observed,
+#'  type="l",
+#'  las= 1,
+#'  lwd= 2,
+#'  xlim = c(0.0001, 0.3),
+#'    xlab = c("Significance level"),  #### Brugts study mortality outcome;
+#'    ylab = c("Number of significant studies;
 #'    expected or observed"),
 #'    main = "Brugts; all-cause mortality")
 #' lines(Btmort$alpha, Btmort$observed)
 #' lines(Btmort$alpha, Btmort$expected, lty = 3)
 #' abline(v=0.05, lty=2)
-#' par(new=TRUE)
+#' par(new = TRUE)
 #' plot(Btmort$alpha, Btmort$p.value,
 #' type="l", xlab="", lty=4, lwd=2,
 #' col="grey", axes=FALSE, ylab="")
-#' abline(h=0.1, lty=2)
-#' axis(4,las=1)
-#' mtext(side=4,line=2.5,"P for difference")
-plot_chase_observed_expected <-function(vec_r_events_control, vec_r_events_treated,
-                                        vec_n_sample_size_control, vec_n_sample_size_treated,
+#' abline(h = 0.1, lty=2)
+#' axis(4,las = 1)
+#' mtext(side = 4,
+#'   line = 2.5,
+#'   expression(paste(italic("P"),
+#'   " for difference")))
+#'
+plot_chase_observed_expected <-function(vec_r_events_control,
+                                        vec_r_events_treated,
+                                        vec_n_sample_size_control,
+                                        vec_n_sample_size_treated,
                                         n,
-                                        low.alpha, high.alpha, by.alpha)  {
+                                        low.alpha,
+                                        high.alpha,
+                                        by.alpha)  {
   metaOR <- NULL
   OR_hat <- NULL
   metaOR <- summary(meta.MH(vec_n_sample_size_treated,vec_n_sample_size_control,vec_r_events_treated,vec_r_events_control))
   OR_hat <- metaOR$MHci[[2]]
-  if(OR_hat >= 1) stop("The pooled odds ratio should be less than one to use this method,
+  if(OR_hat >= 1) {stop("The pooled odds ratio should be less than one to use this method,
                        since it is assumed that a protective effect of the intervention is claimed.")
+  }
   alpha_list <- seq(low.alpha,high.alpha, by=by.alpha)
   b<- as.list(1:length(alpha_list))
   pb <- txtProgressBar(min = 0, max = length(b), style=3)

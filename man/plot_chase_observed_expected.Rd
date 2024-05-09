@@ -42,20 +42,39 @@ Calculates observed and expected number of positive studies and P for difference
 Implements test for chasing of significance.
 }
 \examples{
-  data("BMort") ## Meta-analysis of statin use (Brugts 2009, BMJ)
- Btmort<-with(BMort, plot_chase_observed_expected(r_events_control,
-   r_events_treated, n_sample_size_control, n_sample_size_treated, n=10,
-   low.alpha=.001, high.alpha=0.3, by.alpha=0.01))
-plot(Btmort$alpha, Btmort$observed,  type="l", las=1, lwd=2, xlim=c(.0001,0.3),
-   xlab=c("Significance level"),  #### Brugts study mortality outcome; n set low for speed.
-   ylab=c(""), main=c("(a) Brugts; all-cause mortality."))
-lines(Btmort$alpha,Btmort$observed)
-lines(Btmort$alpha,Btmort$expected, lty=3)
+  data("BMort") ## Meta-analysis of statin use; Brugts 2009, BMJ
+ par(mar = c(5, 6, 4, 5) + 0.1)
+ Btmort<-with(BMort,
+   plot_chase_observed_expected(r_events_control,
+    r_events_treated,
+    n_sample_size_control,
+    n_sample_size_treated,
+    n = 10, # n set low for speed.
+    low.alpha = 0.001,
+    high.alpha = 0.3,
+    by.alpha = 0.01))
+plot(Btmort$alpha,
+ Btmort$observed,
+ type="l",
+ las= 1,
+ lwd= 2,
+ xlim = c(0.0001, 0.3),
+   xlab = c("Significance level"),  #### Brugts study mortality outcome;
+   ylab = c("Number of significant studies;
+   expected or observed"),
+   main = "Brugts; all-cause mortality")
+lines(Btmort$alpha, Btmort$observed)
+lines(Btmort$alpha, Btmort$expected, lty = 3)
 abline(v=0.05, lty=2)
-par(new=TRUE)
-plot(Btmort$alpha, Btmort$p.value, type="l", xlab="",lty=4,lwd=2,
+par(new = TRUE)
+plot(Btmort$alpha, Btmort$p.value,
+type="l", xlab="", lty=4, lwd=2,
 col="grey", axes=FALSE, ylab="")
-abline(h=0.1, lty=2)
-axis(4,las=1)
-mtext(side=4,line=2.5,"P for difference")
+abline(h = 0.1, lty=2)
+axis(4,las = 1)
+mtext(side = 4,
+  line = 2.5,
+  expression(paste(italic("P"),
+  " for difference")))
+
 }
