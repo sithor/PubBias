@@ -24,11 +24,12 @@
 #'    ylab=c(Number of significant studies
 #'    expected or observed"),
 #'    main = "Brugts; all-cause mortality")
-#' lines(Btmort$alpha,Btmort$observed)
-#' lines(Btmort$alpha,Btmort$expected, lty=3)
+#' lines(Btmort$alpha, Btmort$observed)
+#' lines(Btmort$alpha, Btmort$expected, lty = 3)
 #' abline(v=0.05, lty=2)
 #' par(new=TRUE)
-#' plot(Btmort$alpha, Btmort$p.value, type="l", xlab="",lty=4,lwd=2,
+#' plot(Btmort$alpha, Btmort$p.value,
+#' type="l", xlab="", lty=4, lwd=2,
 #' col="grey", axes=FALSE, ylab="")
 #' abline(h=0.1, lty=2)
 #' axis(4,las=1)
