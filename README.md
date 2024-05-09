@@ -1,4 +1,4 @@
-# PubBias, an `R` package to look for an excess of significant study results in a meta-analysis.
+# `PubBias`, an `R` package to look for an excess of significant study results in a meta-analysis.
 
 I adapted a method designed by Ioannidis and Trikalinos, which
 compares the observed number of positive studies in a meta-analysis with
@@ -32,6 +32,8 @@ chi-square *P*-value for the difference below 0.05 is suggestive of
 publication bias, however, a less stringent level of 0.1 is often used in
 studies of publication bias, as the number of published studies is usually
 small. 
+
+Future work will adapt the method for continuous outcome meta-analysis.
 
 ## Installing the package
 `install.packages("devtools")`\
