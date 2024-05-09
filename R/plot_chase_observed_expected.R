@@ -15,12 +15,15 @@
 #' @export
 #' @examples
 #'   data("BMort") ## Meta-analysis of statin use (Brugts 2009, BMJ)
+#'  par(mar = c(5, 6, 4, 5) + 0.1)
 #'  Btmort<-with(BMort, plot_chase_observed_expected(r_events_control,
 #'    r_events_treated, n_sample_size_control, n_sample_size_treated, n=10,
 #'    low.alpha=.001, high.alpha=0.3, by.alpha=0.01))
 #' plot(Btmort$alpha, Btmort$observed,  type="l", las=1, lwd=2, xlim=c(.0001,0.3),
 #'    xlab=c("Significance level"),  #### Brugts study mortality outcome; n set low for speed.
-#'    ylab=c(""), main=c("(a) Brugts; all-cause mortality."))
+#'    ylab=c(Number of significant studies
+#'    expected or observed"),
+#'    main = "Brugts; all-cause mortality")
 #' lines(Btmort$alpha,Btmort$observed)
 #' lines(Btmort$alpha,Btmort$expected, lty=3)
 #' abline(v=0.05, lty=2)
@@ -34,16 +37,16 @@ plot_chase_observed_expected <-function(vec_r_events_control, vec_r_events_treat
                                         vec_n_sample_size_control, vec_n_sample_size_treated,
                                         n,
                                         low.alpha, high.alpha, by.alpha)  {
-  metaOR<-NULL
-  OR_hat<-NULL
-  metaOR<-summary(meta.MH(vec_n_sample_size_treated,vec_n_sample_size_control,vec_r_events_treated,vec_r_events_control))
-  OR_hat<-metaOR$MHci[[2]]
+  metaOR <- NULL
+  OR_hat <- NULL
+  metaOR <- summary(meta.MH(vec_n_sample_size_treated,vec_n_sample_size_control,vec_r_events_treated,vec_r_events_control))
+  OR_hat <- metaOR$MHci[[2]]
   alpha_list <- seq(low.alpha,high.alpha, by=by.alpha)
   b<- as.list(1:length(alpha_list))
   pb <- txtProgressBar(min = 0, max = length(b), style=3)
   for (i in 1:length(alpha_list)){
 
-    b[[i]]<-test.n.treated(vec_r_events_control, vec_r_events_treated,
+    b[[i]] <- test.n.treated(vec_r_events_control, vec_r_events_treated,
                            vec_n_sample_size_control, vec_n_sample_size_treated, alpha=alpha_list[i])
   }
 
@@ -51,8 +54,13 @@ plot_chase_observed_expected <-function(vec_r_events_control, vec_r_events_treat
   e<-as.vector(1:length(alpha_list))
 
   for (i in 1:length(a)) {
-    a[[i]]<-ChisqTest_expect(vec_r_events_control, vec_n_sample_size_control,
-                             vec_n_sample_size_treated, OR_hat, n, alpha=alpha_list[i], vec_pos=as.vector(b[[i]]))
+    a[[i]] <- ChisqTest_expect(vec_r_events_control,
+                               vec_n_sample_size_control,
+                             vec_n_sample_size_treated,
+                             OR_hat,
+                             n,
+                             alpha=alpha_list[i],
+                             vec_pos=as.vector(b[[i]]))
 
     setTxtProgressBar(pb, i)
   }
