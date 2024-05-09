@@ -42,6 +42,8 @@ plot_chase_observed_expected <-function(vec_r_events_control, vec_r_events_treat
   OR_hat <- NULL
   metaOR <- summary(meta.MH(vec_n_sample_size_treated,vec_n_sample_size_control,vec_r_events_treated,vec_r_events_control))
   OR_hat <- metaOR$MHci[[2]]
+  if(OR_hat >= 1) stop("The pooled odds ratio should be less than one to use this method,
+                       since it is assumed that a protective effect of the intervention is claimed.")
   alpha_list <- seq(low.alpha,high.alpha, by=by.alpha)
   b<- as.list(1:length(alpha_list))
   pb <- txtProgressBar(min = 0, max = length(b), style=3)
