@@ -16,11 +16,11 @@
 #' @return Expected number of events at given alpha level.
 #' @export
 expected_events <- function(vec_r_events_control, vec_n_sample_size_control, vec_n_sample_size_treated, OR_hat, n, alpha){
-  power_ind<-as.vector(1:length(vec_r_events_control))
+  power_ind <- as.vector(1:length(vec_r_events_control))
   for (i in 1:length(power_ind)) {
     power_ind[i] <- test.n(vec_r_events_control[i], vec_n_sample_size_control[i], vec_n_sample_size_treated[i], OR_hat, n, alpha)
   }
-  expected<-sum(power_ind)
+  expected <- sum(abs(power_ind))
   return(expected)
 }
 NULL
