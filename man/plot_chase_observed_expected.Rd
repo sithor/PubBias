@@ -12,7 +12,8 @@ plot_chase_observed_expected(
   n,
   low.alpha,
   high.alpha,
-  by.alpha
+  by.alpha,
+  parallel = FALSE
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ plot_chase_observed_expected(
 \item{high.alpha}{Upper limit of type-1 error rate used to judge whether constituent studies are positive; suggest 0.3}
 
 \item{by.alpha}{Interval of type-2 error rate at which observed and expected values and P for difference evaluated}
+
+\item{parallel}{By default FALSE, If TRUE, will attempt to parallelise calculations.}
 }
 \value{
 a dataframe with columns which include alpha level, observed number of positive studies, expected number, and P for difference, OR_hat (summary measure of effect for meta-analysis) with varying levels of significance for constituent studies

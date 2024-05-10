@@ -2,7 +2,7 @@ Package: PubBias
 Type: Package
 Title: Performs simulation to look for publication bias, using a
         technique described by Ioannidis and Trikalinos
-Depends: rmeta, R.utils
+Depends: rmeta, R.utils, doParallel, foreach
 Version: 1.0
 Date: 2024-05-08
 Author: Simon Thornley

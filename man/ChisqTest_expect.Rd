@@ -2,7 +2,7 @@
 % Please edit documentation in R/ChisqTest_expect.R
 \name{ChisqTest_expect}
 \alias{ChisqTest_expect}
-\title{Chi-square test}
+\title{Chi-square test to test for significant difference between observed and expected number of positive studies (not for end user).}
 \usage{
 ChisqTest_expect(
   vec_r_events_control,
@@ -27,14 +27,11 @@ ChisqTest_expect(
 
 \item{alpha}{Type-1 error rate.}
 
-\item{vec_pos}{Vector of positive results from constituent studies, returned by test.n.treated function.}
+\item{vec_pos}{Vector of positive results from constituent studies, returned by test.n.treated() function.}
 }
 \value{
 Vector of p-values for difference between observed and expected number of positive studies from meta-analysis, along with vector of expected values.
 }
 \description{
-for a significant difference between observed and expected number of positive studies, not for end user.
-}
-\details{
-This is an internal function, not for end user.
+Chi-square test to test for significant difference between observed and expected number of positive studies (not for end user).
 }
