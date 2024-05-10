@@ -18,4 +18,4 @@ test.n.treated <- function(vec_r_events_control, vec_r_events_treated,
                                                     vec_n_sample_size_control[i], vec_n_sample_size_treated[i], alpha)
   return(xx)
 }
-NULL
+

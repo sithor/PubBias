@@ -11,6 +11,7 @@
 #' @param low.alpha Lower limit of type-1 error rate used to judge whether constituent studies are positive; suggest 0.001
 #' @param high.alpha Upper limit of type-1 error rate used to judge whether constituent studies are positive; suggest 0.3
 #' @param by.alpha Interval of type-2 error rate at which observed and expected values and P for difference evaluated
+#' @param parallel By default FALSE, If TRUE, will attempt to parallelise calculations.
 #' @return a dataframe with columns which include alpha level, observed number of positive studies, expected number, and P for difference, OR_hat (summary measure of effect for meta-analysis) with varying levels of significance for constituent studies
 #' @export
 #' @examples
@@ -56,7 +57,8 @@ plot_chase_observed_expected <-function(vec_r_events_control,
                                         n,
                                         low.alpha,
                                         high.alpha,
-                                        by.alpha)  {
+                                        by.alpha,
+                                        parallel = FALSE)  {
   metaOR <- NULL
   OR_hat <- NULL
   metaOR <- summary(meta.MH(vec_n_sample_size_treated,vec_n_sample_size_control,vec_r_events_treated,vec_r_events_control))
@@ -66,37 +68,103 @@ plot_chase_observed_expected <-function(vec_r_events_control,
   }
   alpha_list <- seq(low.alpha,high.alpha, by=by.alpha)
   b<- as.list(1:length(alpha_list))
-  pb <- txtProgressBar(min = 0, max = length(b), style=3)
+  #pb <- txtProgressBar(min = 0, max = length(b), style=3)
+
   for (i in 1:length(alpha_list)){
 
-    b[[i]] <- test.n.treated(vec_r_events_control, vec_r_events_treated,
-                           vec_n_sample_size_control, vec_n_sample_size_treated, alpha=alpha_list[i])
+     b[[i]] <- test.n.treated(vec_r_events_control, vec_r_events_treated,
+                            vec_n_sample_size_control,
+                            vec_n_sample_size_treated, alpha=alpha_list[i]) |> sum()
   }
+  #print("b object is:")
+  #print(b)
+  a <- as.list(1:length(alpha_list))
+  result <- as.list(1:length(alpha_list))
+  e <- as.vector(1:length(alpha_list))
 
-  a<-as.list(1:length(alpha_list))
-  e<-as.vector(1:length(alpha_list))
 
-  for (i in 1:length(a)) {
-    a[[i]] <- ChisqTest_expect(vec_r_events_control,
-                               vec_n_sample_size_control,
-                             vec_n_sample_size_treated,
-                             OR_hat,
-                             n,
-                             alpha=alpha_list[i],
-                             vec_pos=as.vector(b[[i]]))
+  if(parallel == TRUE){
+  parallel::detectCores()
+  n.cores <- parallel::detectCores() - 1
+  #create the cluster
 
-    setTxtProgressBar(pb, i)
+  if(n.cores > 1){
+  print("multiple cores detected")
+  print(paste0("Using ", n.cores, " cores in parallel.\n
+               Sorry, no progress bar!"))
+  my.cluster <- parallel::makeCluster(
+    n.cores,
+    type = "PSOCK"
+  )
+  #register it to be used by %dopar%
+  doParallel::registerDoParallel(cl = my.cluster)
+
+  #check if it is registered (optional)
+  foreach::getDoParRegistered()
+  ## [1] TRUE
+  #how many workers are available? (optional)
+  #foreach::getDoParWorkers()
+  #check cluster definition (optional)
+  #print(my.cluster)
+  ## socket cluster with 7 nodes on host 'localhost'
+  #register it to be used by %dopar%
+
+  doParallel::registerDoParallel(cl = my.cluster)
+  x <- foreach(
+    i = 1:length(alpha_list),
+    .combine = rbind
+  ) %dopar% {
+    ChisqTest_expect(vec_r_events_control,
+                      vec_n_sample_size_control,
+                     vec_n_sample_size_treated,
+                     OR_hat,
+                     n,
+                     alpha=alpha_list[i],
+                     vec_pos=as.vector(b[[i]]))
   }
-  close(pb)
-  #browser()
-  a <- do.call(rbind,a)
-  b <- do.call(rbind,b)
+#print("x object is:")
+#print(x)
+#print(x |> str())
+
+#a <- do.call(rbind, a)
+#print("x is:")
+#print(x)
+#print(x |> str())
+
+ # print("result of x$a is:")
+#x$a |> print()
+  a <- do.call(rbind, as.list(x))
+  a <- t(a) |> data.frame()
+  stopCluster(my.cluster)
+ # print("a is:")
+  #print(a)
+  }
+  } else {
+    # Create a progress bar
+    pb <- txtProgressBar(min = 0, max = length(a), style = 3)
+    for (i in 1:length(alpha_list)){
+           a[[i]] <- ChisqTest_expect(vec_r_events_control,
+                                      vec_n_sample_size_control,
+                                    vec_n_sample_size_treated,
+                                    OR_hat,
+                                    n,
+                                    alpha=alpha_list[i],
+                                    vec_pos=as.vector(b[[i]]))
+
+           setTxtProgressBar(pb, i)
+        }
+  a <- do.call(rbind, a)
+    }
+  b <- do.call(rbind, b)
+  #print("b is:")
+  #print(b)
+  #str(b) |> print()
   f <- as.vector(1:nrow(a))
   for (i in 1:nrow(a)) {
     f[i]<-sum(b[i,])
   }
-  o<-rep(OR_hat,length(a))
-  d<-data.frame(cbind(alpha_list,a,f,o))
+  o<-rep(OR_hat, length(a))
+  d <- data.frame(cbind(alpha_list,a,f,o))
   names(d)<-c("alpha","p.value","expected","observed","OR_hat")
   return(d)
 }
